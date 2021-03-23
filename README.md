@@ -1,6 +1,6 @@
 #### Keskustelusovellus
 
-Sovelluksessa on keskusteluketjuja, jotka on jaoteltu keskustelualueisiin. Käyttäjät ovat joko peruskäyttäjiä tai ylläpitäjiä.
+Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemalla käyttäjä näkee siihen kuuluvat keskusteluketjut ja voi lisätä niihin omia viestejään kirjauduttuaan sivulle. Käyttäjät ovat joko peruskäyttäjiä tai ylläpitäjiä.
 
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen
 * Käyttäjä voi asettaa itselleen profiilikuvan valmiista vaihtoehdoista(?)
