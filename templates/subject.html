@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>{{subject}}</title>
+<h1>{{subject}}</h1>
+<hr>
+{% for thread in threads %}
+<a href="/thread/{{thread[1]}}"><h1>{{thread[2]}}</h1></a>
+<p>
+likes {{thread[3]}}
+{% if ((thread[6] == 0) and (session.user_id)) %} 
+<form action="/subject/{{link}}" method="POST">
+    <input type="submit" value="like">
+    <input type="hidden" name="thread_id" value={{thread[1]}}>
+</form> 
+{% endif %}
+<p>
+comments {{thread[4]}}
+<p>
+last comment {{thread[5]}}
+<hr>
+{% endfor %}
+{% if session.user_id %}
+<a href="/new_thread/{{link}}">Start new thread</a>
+<hr>
+{% endif %}
+<a href="/">home</a>

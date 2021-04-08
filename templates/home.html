@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<title>home</title>
+<h1>DISCUSSORIUM</h1>
+<br>
+{% if session.user_id %}
+<a href="/user">{{user}}</a>
+<br>
+<a href="/logout">logout</a>
+{% else %}
+<a href="/login">login</a>
+{% endif %}
+<br>
+<form action="/search" method="GET">
+    <input type="text" name="keyword" size="30">
+    <input type="submit" value="search">
+</form>
+<hr>
+{% for subject in subjects %}
+<a href="/subject/{{subject[0]}}"><h1>{{subject[1]}}</h1></a>
+<p>
+threads {{subject[2]}}
+<p>
+comments {{subject[3]}}
+<p>
+last comment {{subject[4]}}
+<hr>
+{% endfor %}
