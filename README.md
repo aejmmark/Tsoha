@@ -1,4 +1,4 @@
-#### Keskustelusovellus
+#### discussorium
 
 Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemalla käyttäjä näkee siihen kuuluvat keskusteluketjut ja voi lisätä niihin omia viestejään kirjauduttuaan sivulle. Käyttäjät ovat joko peruskäyttäjiä tai ylläpitäjiä.
 
