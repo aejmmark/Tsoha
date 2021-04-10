@@ -24,7 +24,7 @@ def register(username, password, admin):
     hash_val = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password, created) VALUES (:username,:password,NOW())"
-        db.session.execute(sql, {"username":username, "password":hash_val, "admin":admin})
+        db.session.execute(sql, {"username":username, "password":hash_val})
         if admin:
             sql = "UPDATE users SET id=0-id WHERE username=:username"
             db.session.execute(sql, {"username":username})

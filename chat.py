@@ -47,6 +47,16 @@ def new_thread(comment, subject, user_id, topic):
     except:
         return 0
 
+def new_subject(subject, user_id):
+    sql = "INSERT INTO subjects (secret, subject) VALUES (False, :subject) RETURNING id"
+    try:
+        result = db.session.execute(sql, {"subject":subject})
+        new_id = result.fetchone()[0]
+        db.session.commit()
+        return new_id
+    except:
+        return 0
+
 def like_comment(user, comment):
     sql = "INSERT INTO likes (user_id, comment_id) VALUES (:user, :comment)"
     try:

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>home</title>
+<title>discussorium</title>
 <h1>DISCUSSORIUM</h1>
 <br>
 {% if session.user_id %}
@@ -25,3 +25,6 @@ comments {{subject[3]}}
 last comment {{subject[4]}}
 <hr>
 {% endfor %}
+{% if session.user_id %}
+<a href="/new_subject">New subject</a>
+{% endif %}

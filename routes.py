@@ -57,6 +57,17 @@ def thread(id):
         else:
             return render_template("error.html", message="like_comment error")
 
+@app.route("/new_subject",methods=["GET","POST"])
+def new_subject():
+    if request.method == "GET":
+        return render_template("new_subject.html")
+    if request.method == "POST":
+        subject = request.form["subject"]
+        new_id = chat.new_subject(subject, session["user_id"])
+        if (new_id != 0):
+                return redirect("/subject/" + str(new_id))
+        return render_template("error.html", message="new_subject error")
+
 @app.route("/new_thread/<int:id>",methods=["GET","POST"])
 def new_thread(id):
     if request.method == "GET":
