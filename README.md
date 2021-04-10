@@ -1,4 +1,5 @@
 #### discussorium
+https://discussorium.herokuapp.com/
 
 Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemalla käyttäjä näkee siihen kuuluvat keskusteluketjut ja voi lisätä niihin omia viestejään kirjauduttuaan sivulle. Käyttäjät ovat joko peruskäyttäjiä tai ylläpitäjiä.
 
@@ -22,3 +23,4 @@ TODO
 * Ylläpitäjä voi poistaa käyttäjien tilejä.(?)
 * Käyttäjä voi asettaa itselleen profiilikuvan valmiista vaihtoehdoista.(?)
 * ...
+
