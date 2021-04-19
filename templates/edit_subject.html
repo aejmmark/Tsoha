@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<title>edit_subject</title>
+<form action="/edit_subject/{{link}}" method="POST">
+<h1>Edit subject</h1>
+<textarea name="edited_subject" rows="5" cols="50"></textarea>
+<br>
+<input type="radio" name="secret" value="public" checked> public
+<input type="radio" name="secret" value="private"> private
+<br>
+<input type="submit" value="edit">
+<h1>Type DELETE to delete subject</h1>
+<textarea name="delete" rows="5" cols="50"></textarea>
+<input type="submit" value="delete">
+</form>    
+<a href="/">home</a>

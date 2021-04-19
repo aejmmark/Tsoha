@@ -15,7 +15,7 @@
     <input type="submit" value="search">
 </form>
 <hr>
-{% for subject in subjects %}
+{% for subject in subjects if not subject[1] == "DELETE" %}
 <a href="/subject/{{subject[0]}}"><h1>{{subject[1]}}</h1></a>
 <p>
 threads {{subject[2]}}
@@ -23,8 +23,14 @@ threads {{subject[2]}}
 comments {{subject[3]}}
 <p>
 last comment {{subject[4]}}
+{% if session.user_id <= -1 %}
+<p>
+<form action="/edit_subject/{{subject[0]}}" method="GET">
+    <input type="submit" value="edit">
+</form> 
+{% endif %}
 <hr>
 {% endfor %}
-{% if session.user_id %}
+{% if session.user_id <= -1 %}
 <a href="/new_subject">New subject</a>
 {% endif %}

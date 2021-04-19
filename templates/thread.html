@@ -2,7 +2,7 @@
 <title>{{topic}}</title>
 <h1>{{topic}}</h1>
 <hr>
-{% for comment in comments %}
+{% for comment in comments if not comment[2] == "DELETE" %}
 <h1>{{comment[2]}}</h1>
 <p>
 likes {{comment[4]}}
@@ -12,6 +12,11 @@ user {{comment[3]}}
 <form action="/thread/{{link}}" method="POST">
     <input type="submit" value="like">
     <input type="hidden" name="comment_id" value={{comment[1]}}>
+</form> 
+{% endif %}
+{% if ((session.user_id <= -1 ) or (comment[7] == session.user_id)) %}
+<form action="/edit_comment/{{comment[1]}}" method="GET">
+    <input type="submit" value="edit">
 </form> 
 {% endif %}
 <p>
