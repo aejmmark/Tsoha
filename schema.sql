@@ -12,6 +12,8 @@ CREATE TABLE subjects (
     subject TEXT
 );
 
+INSERT INTO subjects (id, secret, subject) VALUES (0, True, 'DELETE');
+
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
     subject_id INTEGER REFERENCES subjects,
@@ -33,4 +35,10 @@ CREATE TABLE likes (
     user_id INTEGER REFERENCES users,
     thread_id INTEGER REFERENCES threads,
     comment_id INTEGER REFERENCES comments
+);
+
+CREATE TABLE privileges (
+    id SERIAL PRIMARY KEY,
+    subject_id INTEGER REFERENCES subjects,
+    user_id INTEGER REFERENCES users
 );

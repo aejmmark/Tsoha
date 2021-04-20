@@ -16,9 +16,9 @@ Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemal
 * Käyttäjä voi poistaa luomansa ketjun tai viestin.
 * Ylläpitäjä voi lisätä tai poistaa keskustelualueita.
 * Ylläpitäjä voi poistaa käyttäjien tekemiä ketjuja tai viestejä.
+* Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
 
 TODO
-* Käyttäjä voi järjestää ketjun viestit tykkäyksien tai ajankohdan mukaan.
-* Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
+* Käyttäjä voi järjestää ketjun viestit tykkäysten tai ajankohdan mukaan.
 * Käyttäjä ei masennu sivun ulkoasusta
 
