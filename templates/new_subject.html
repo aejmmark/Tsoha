@@ -7,6 +7,7 @@
     <input type="radio" name="secret" value="public" checked> public
     <input type="radio" name="secret" value="private"> private
     <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="submit">
 </form>
-<a href="/">home</a>
+<a href="/">go back</a>

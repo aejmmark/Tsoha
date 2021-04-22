@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>{{topic}}</title>
 <h1>{{topic}}</h1>
+<a href="/">go back</a>
 <hr>
 {% for comment in comments %}
     <h1>{{comment[2]}}</h1>
@@ -27,4 +28,4 @@
     <a href="/new_comment/{{link}}">comment</a>
     <hr>
 {% endif %}
-<a href="/">home</a>
+<a href="{{back}}">go back</a>

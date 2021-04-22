@@ -113,12 +113,22 @@ def search(keyword):
     results = result.fetchall()
     return results
 
-def get_subject(id):
-    result = db.session.execute("SELECT subject FROM subjects WHERE id=:id", {"id":id})
+def get_subject(subject_id):
+    result = db.session.execute("SELECT subject FROM subjects WHERE id=:subject_id", {"subject_id":subject_id})
     subject = result.fetchone()[0]
     return subject
 
-def get_topic(id):
-    result = db.session.execute("SELECT topic FROM threads WHERE id=:id", {"id":id})
+def get_topic(thread_id):
+    result = db.session.execute("SELECT topic FROM threads WHERE id=:thread_id", {"thread_id":thread_id})
     topic = result.fetchone()[0]
     return topic
+
+def get_topic_poster(thread_id):
+    result = db.session.execute("SELECT user_id FROM threads WHERE id=:thread_id", {"thread_id":thread_id})
+    user_id = result.fetchone()[0]
+    return user_id
+
+def get_comment_poster(comment_id):
+    result = db.session.execute("SELECT user_id FROM comments WHERE id=:comment_id", {"comment_id":comment_id})
+    user_id = result.fetchone()[0]
+    return user_id

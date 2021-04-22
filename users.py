@@ -4,7 +4,7 @@ from db import db
 
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
-from os import getenv
+from os import getenv, urandom
 app.secret_key = getenv("SECRET_KEY")
 
 def login(username, password):
@@ -16,6 +16,7 @@ def login(username, password):
     else:
         if check_password_hash(user[1], password):
             session["user_id"] = user[0]
+            session["csrf_token"] = urandom(16).hex()
             return True
         else:
             return False

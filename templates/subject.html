@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>{{subject}}</title>
 <h1>Threads discussing {{subject}}</h1>
+<a href="/">go back</a>
 <hr>
 {% for thread in threads %}
     <a href="/thread/{{thread[1]}}"><h1>{{thread[2]}}</h1></a>
@@ -27,4 +28,3 @@
     <a href="/new_thread/{{link}}">Start new thread</a>
     <hr>
 {% endif %}
-<a href="/">home</a>
