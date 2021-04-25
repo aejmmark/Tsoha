@@ -31,7 +31,11 @@
             <p>
             comments {{subject[3]}}
             <p>
-            last comment {{subject[4]}}
+            {% if subject[4] is none %}
+                last comment {{subject[4]}}
+            {% else %}
+                last comment {{subject[4].strftime("%Y-%m-%d %H:%M:%S")}}
+            {% endif %}
             {% if session.user_id < 0 %}
                 <p>
                 <form action="/edit_subject/{{subject[0]}}" method="GET">

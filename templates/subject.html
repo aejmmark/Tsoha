@@ -31,6 +31,10 @@
         <p>
         comments {{thread[4]}}
         <p>
-        last comment {{thread[5]}}
+        {% if thread[5] is none %}
+            last comment {{thread[5]}}
+        {% else %}
+            last comment {{thread[5].strftime("%Y-%m-%d %H:%M:%S")}}
+        {% endif %}
     </div>
 {% endfor %}
