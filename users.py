@@ -37,8 +37,10 @@ def register(username, password, admin):
     return login(username,password)
 
 def user_data(id):
-    sql = "SELECT u.username, COUNT(DISTINCT l.id), COUNT(DISTINCT t.id), COUNT(CASE c.comment WHEN 'DELETE' THEN NULL ELSE 1 END) FROM users u LEFT JOIN comments c ON " \
-        "u.id=c.user_id LEFT JOIN threads t ON t.user_id=c.user_id AND t.topic!='DELETE' LEFT JOIN likes l ON t.user_id=l.user_id WHERE u.id=:id GROUP BY u.username"
+    sql = "SELECT u.username, COUNT(DISTINCT l.id), COUNT(DISTINCT t.id), " \
+        "COUNT(CASE c.comment WHEN 'DELETE' THEN NULL ELSE 1 END) FROM users u LEFT JOIN comments c " \
+            "ON u.id=c.user_id LEFT JOIN threads t ON t.user_id=c.user_id AND t.topic!='DELETE' LEFT JOIN " \
+                "likes l ON t.user_id=l.user_id WHERE u.id=:id GROUP BY u.username"
     result = db.session.execute(sql, {"id":id})
     data = result.fetchall()[0]
     return data

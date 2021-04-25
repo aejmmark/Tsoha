@@ -119,9 +119,19 @@ def get_subject(subject_id):
     return subject
 
 def get_topic(thread_id):
-    result = db.session.execute("SELECT topic FROM threads WHERE id=:thread_id", {"thread_id":thread_id})
-    topic = result.fetchone()[0]
+    result = db.session.execute("SELECT subject_id, topic FROM threads WHERE id=:thread_id", {"thread_id":thread_id})
+    topic = result.fetchone()
     return topic
+
+def get_comment_thread_id(comment_id):
+    result = db.session.execute("SELECT thread_id FROM comments WHERE id=:comment_id", {"comment_id":comment_id})
+    thread_id = result.fetchone()[0]
+    return thread_id
+
+def get_thread_subject_id(thread_id):
+    result = db.session.execute("SELECT subject_id FROM threads WHERE id=:thread_id", {"thread_id":thread_id})
+    subject_id = result.fetchone()[0]
+    return subject_id
 
 def get_topic_poster(thread_id):
     result = db.session.execute("SELECT user_id FROM threads WHERE id=:thread_id", {"thread_id":thread_id})

@@ -56,7 +56,7 @@ def thread(id):
         topic = chat.get_topic(id)
         if topic == "DELETE":
             abort(403)
-        return render_template("thread.html", topic=topic, link=id, comments=comments, back=("/subject/" + str(id)))
+        return render_template("thread.html", topic=topic[1], link=id, comments=comments, back=("/subject/" + str(topic[0])))
     if request.method == "POST":
         comment_id = request.form["comment_id"]
         if chat.like_comment(session["user_id"], comment_id):
@@ -139,10 +139,11 @@ def edit_subject(id):
 
 @app.route("/edit_thread/<int:id>",methods=["GET","POST"])
 def edit_thread(id):
-    if session.user_id != chat.get_topic_poster(id) and session.user_id > 0:
+    if session["user_id"] != chat.get_topic_poster(id) and session["user_id"] > 0:
         abort(403)
     if request.method == "GET":
-        return render_template("edit_thread.html", link=id, back=("/subject/" + str(id)))
+        subject_id = chat.get_thread_subject_id(id)
+        return render_template("edit_thread.html", link=id, back=("/subject/" + str(subject_id)))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
@@ -155,7 +156,7 @@ def edit_thread(id):
             edited_topic = request.form["edited_topic"]
             if len(edited_topic) > 60 or len(edited_topic) < 3:
                 return render_template("error.html", message="invalid topic", back=("/edit_thread/" + str(id)))
-            edited_topic = edited_topic + " [EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
+            edited_topic = edited_topic + "\n[EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
             subject_id = chat.edit_thread(id, edited_topic)
             if (subject_id != 0):
                     return redirect("/subject/" + str(subject_id))
@@ -163,10 +164,11 @@ def edit_thread(id):
 
 @app.route("/edit_comment/<int:id>",methods=["GET","POST"])
 def edit_comment(id):
-    if session.user_id != chat.get_comment_poster(id) and session.user_id > 0:
+    if session["user_id"] != chat.get_comment_poster(id) and session["user_id"] > 0:
         abort(403)
     if request.method == "GET":
-        return render_template("edit_comment.html", link=id, back=("/thread/" + str(id)))
+        thread_id = chat.get_comment_thread_id(id)
+        return render_template("edit_comment.html", link=id, back=("/thread/" + str(thread_id)))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
@@ -177,9 +179,9 @@ def edit_comment(id):
                 return redirect("/thread/" + str(subject_id))
         else:
             edited_comment = request.form["edited_comment"]
-            if len(edited_comment) > 500 or len(edit_comment) < 3:
+            if len(edited_comment) > 500 or len(edited_comment) < 3:
                 return render_template("error.html", message="invalid comment", back=("/edit_comment/" + str(id)))
-            edited_comment = edited_comment + " [EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
+            edited_comment = edited_comment + "\n[EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
             thread_id = chat.edit_comment(id, edited_comment)
             if (thread_id != 0):
                     return redirect("/thread/" + str(thread_id))
