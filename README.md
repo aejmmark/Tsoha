@@ -20,5 +20,4 @@ Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemal
 
 TODO
 * Käyttäjä voi järjestää ketjun viestit tykkäysten tai ajankohdan mukaan.
-* Käyttäjä ei masennu sivun ulkoasusta
 
