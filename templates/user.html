@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>{{data[0]}}</title>
-{{data[0]}}
-<p>
-Total likes: {{data[1]}}
-<p>
-Posts: {{data[3]}}
-<p>
-Threads: {{data[2]}}
-<p>
+<div class="container">
+    {{data[0]}}
+    <p>
+    total likes: {{data[1]}}
+    <p>
+    posts: {{data[3]}}
+    <p>
+    threads: {{data[2]}}
+    <p>
 <a href="/">go back</a>
+</div>

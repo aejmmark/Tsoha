@@ -1,49 +1,55 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>discussorium</title>
-<h1>DISCUSSORIUM</h1>
-<br>
-{% if session.user_id %}
-<a href="/user">{{user}}</a>
-<br>
-<a href="/logout">logout</a>
-{% else %}
-<a href="/login">login</a>
-{% endif %}
-<br>
-<form action="/search" method="GET">
-    <input type="text" name="keyword" size="30">
-    <input type="submit" value="search">
-</form>
-<hr>
+<div class="container">
+    <h1>DISCUSSORIUM</h1>
+    <p>
+    {% if session.user_id %}
+    <a href="/user">{{user}}</a>
+    <a href="/logout">logout</a>
+    {% else %}
+    <a href="/login">login</a>
+    {% endif %}
+</div>
+<div class="container">
+    <form action="/search" method="GET">
+        <input type="text" name="keyword" size="20">
+        <input type="submit" value="search">
+    </form>
+</div>
+{% if session.user_id and session.user_id < 0 %}
+        <div class="container">
+            <a href="/new_subject">new subject</a>
+        </div>
+    {% endif %}
 {% if session.user_id %}
     {% for subject in subjects if not (subject[5] and subject[6] == 0 and session.user_id > 0) %}
-        <a href="/subject/{{subject[0]}}"><h1>{{subject[1]}}</h1></a>
-        <p>
-        threads {{subject[2]}}
-        <p>
-        comments {{subject[3]}}
-        <p>
-        last comment {{subject[4]}}
-        {% if session.user_id < 0 %}
+        <div class="container">
+            <a href="/subject/{{subject[0]}}">{{subject[1]}}</a>
             <p>
-            <form action="/edit_subject/{{subject[0]}}" method="GET">
-                <input type="submit" value="edit">
-            </form> 
-        {% endif %}
-        <hr>
+            threads {{subject[2]}}
+            <p>
+            comments {{subject[3]}}
+            <p>
+            last comment {{subject[4]}}
+            {% if session.user_id < 0 %}
+                <p>
+                <form action="/edit_subject/{{subject[0]}}" method="GET">
+                    <input type="submit" value="edit">
+                </form> 
+            {% endif %}
+        </div>
         {% endfor %}
-    {% if session.user_id < 0 %}
-        <a href="/new_subject">New subject</a>
-    {% endif %}
 {% else %}
     {% for subject in subjects if not subject[5] %}
-        <a href="/subject/{{subject[0]}}"><h1>{{subject[1]}}</h1></a>
-        <p>
-        threads {{subject[2]}}
-        <p>
-        comments {{subject[3]}}
-        <p>
-        last comment {{subject[4]}}
-        <hr>
+        <div class="container">
+            <a href="/subject/{{subject[0]}}">{{subject[1]}}</a>
+            <p>
+            threads {{subject[2]}}
+            <p>
+            comments {{subject[3]}}
+            <p>
+            last comment {{subject[4]}}
+        </div>
     {% endfor %}
 {% endif %}

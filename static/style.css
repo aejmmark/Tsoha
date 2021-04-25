@@ -1,0 +1,96 @@
+
+body {
+    margin: auto;
+    max-width: 50em;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    color: maroon;
+    background: peachpuff;
+}
+
+.container {
+    width: auto;
+    height: auto;
+    border: 10px peachpuff;
+    border-radius: 1em;
+    border-style: double;
+    background-color:antiquewhite;
+    text-align: center;
+    margin: 20px;
+    padding: 40px;
+}
+
+a {
+    background-color: antiquewhite;
+    border: 5px peachpuff;
+    border-radius: .5em;
+    border-style: double;
+    text-align: center;
+    font-size: large;
+    padding: 10px;
+    text-decoration: none;
+    color: maroon;
+    display: inline-block;
+}
+
+input {
+    cursor: pointer;
+    outline: none;
+    background-color: antiquewhite;
+    border: 5px peachpuff;
+    border-radius: .5em;
+    border-style: double;
+    font-size: large;
+    padding: 10px;
+    color: maroon;
+}
+
+textarea {
+    cursor: pointer;
+    outline: none;
+    background-color: antiquewhite;
+    border: 5px peachpuff;
+    border-radius: .5em;
+    border-style: double;
+    text-align: center;
+    font-size: large;
+    padding: 10px;
+    color: maroon;
+    display: inline-block;
+}
+
+.radiocheck {
+    margin: 10px;
+}
+
+.radiocheck input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+    height: 0;
+}
+
+.radiocheck label {
+    cursor: pointer;
+    background-color: antiquewhite;
+    border: 5px peachpuff;
+    border-radius: .5em;
+    border-style: double;
+    text-align: center;
+    font-size: large;
+    padding: 10px;
+    color: maroon;
+    display: inline-block;
+}
+
+.radiocheck input[type="radio"]:focus + label {
+    border: 5px maroon;
+    border-radius: .5em;
+    border-style: double;
+}
+
+.radiocheck input[type="radio"]:checked + label {
+    border: 5px maroon;
+    border-radius: .5em;
+    border-style: double;
+}

@@ -1,33 +1,47 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>edit_subject</title>
-<form action="/edit_subject/{{link}}" method="POST">
-    <h1>Edit subject</h1>
-    <textarea name="edited_subject" rows="5" cols="50"></textarea>
-    <br>
-    <input type="radio" name="secret" value="public" checked> public
-    <input type="radio" name="secret" value="private"> private
-    <br>
-    <input type="submit" value="edit">
-    <h1>Type DELETE to delete subject</h1>
-    <textarea name="delete" rows="5" cols="50"></textarea>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="delete">
-</form>
-<hr>
-<form action="/add_user/{{link}}" method="POST">
-    <h1>Add entry privileges</h1>
-    <textarea name="add_user" rows="5" cols="50"></textarea>
-    <br>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="add">
-</form>
-<hr>
-<form action="/remove_user/{{link}}" method="POST">
-    <h1>Remove entry privileges</h1>
-    <textarea name="remove_user" rows="5" cols="50"></textarea>
-    <br>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="remove">
-</form>
-<hr>
-<a href="/">go back</a>
+<div class="container">
+    <form action="/edit_subject/{{link}}" method="POST">
+        Edit the subject! Must be over 3 and under 60 characters in length
+        <p>
+        <textarea name="edited_subject" rows="5" cols="50"></textarea>
+        <p>
+        <div class="radiocheck">
+            <input type="radio" id="public" name="secret" value="public" checked>
+            <label for="user">public</label>
+            <input type="radio" id="private" name="secret" value="private">
+            <label for="admin">private</label>
+        </div>
+        <p>
+        <input type="submit" value="edit">
+        <p>
+        Type DELETE to delete subject
+        <p>
+        <textarea name="delete" rows="5" cols="50"></textarea>
+        <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="delete">
+        <a href="/">go back</a>
+    </form>
+</div>
+<div class="container">
+    <form action="/add_user/{{link}}" method="POST">
+        Add entry privileges
+        <p>
+        <textarea name="add_user" rows="5" cols="50"></textarea>
+        <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="add">
+    </form>
+</div>
+<div class="container">
+    <form action="/remove_user/{{link}}" method="POST">
+        Remove entry privileges
+        <p>
+        <textarea name="remove_user" rows="5" cols="50"></textarea>
+        <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="remove">
+    </form>
+</div>

@@ -1,13 +1,16 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>search</title>
-<h1>Search results</h1>
-<a href="/">go back</a>
-<hr>
+<div class="container">
+    <h1>search results</h1>
+    <a href="/">go back</a>
+</div>
 {% for result in results if not result[1] == "DELETE" %}
-    <a href="/thread/{{result[0]}}"><h1>{{result[3]}}</h1></a>
-    <p>
-    {{result[1]}}
-    <p>
-    posted {{result[2]}}
-    <hr>
+    <div class="container">
+        <a href="/thread/{{result[0]}}">thread: {{result[3]}}</a>
+        <p>
+        comment: {{result[1]}}
+        <p>
+        posted {{result[2]}}
+    </div>
 {% endfor %}

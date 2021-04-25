@@ -1,18 +1,26 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>register</title>
+<div class="container">
 <form action="/register" method="POST">
-    <h1>create new user</h1>
-    <hr>
-    username: <input type="text" name="username" size="30">
-    <br>
-    password: <input type="password" name="a_password" size="30">
-    <br>
-    password again: <input type="password" name="b_password" size="30">
-    <br>
-    <input type="radio" name="usertype" value="user" checked> user
-    <input type="radio" name="usertype" value="admin"> admin
-    <br>
-    <input type="submit" value="create"
-    <hr>
-    <a href="/login">go back</a>
-</form>
+        Create a new user! Must be over 3 and under 12 characters in length and may only contain letters
+        <p>
+        username: <input type="text" name="username" size="20">
+        <p>
+        Password must be over 8 and under 16 characters in length
+        <p>
+        password: <input type="password" name="a_password" size="20">
+        <p>
+        and again: <input type="password" name="b_password" size="20">
+        <p>
+        <div class="radiocheck">
+            <input type="radio" id="user" name="usertype" value="user" checked>
+            <label for="user">user</label>
+            <input type="radio" id="admin" name="usertype" value="admin">
+            <label for="admin">admin</label>
+        </div>
+        <p>
+        <input type="submit" value="create">
+        <a href="/login">go back</a>
+    </form>
+</div>

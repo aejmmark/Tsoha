@@ -1,12 +1,20 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <title>edit_thread</title>
-<form action="/edit_thread/{{link}}" method="POST">
-    <h1>Edit topic</h1>
-    <textarea name="edited_topic" rows="5" cols="50"></textarea>
-    <input type="submit" value="edit">
-    <h1>Type DELETE to delete thread</h1>
-    <textarea name="delete" rows="5" cols="50"></textarea>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="delete">
-</form>
-<a href="{{back}}">go back</a>
+<div class="container">
+    <form action="/edit_thread/{{link}}" method="POST">
+        Edit the topic! Must be over 3 and under 60 characters in length
+        <p>
+        <textarea name="edited_topic" rows="5" cols="50"></textarea>
+        <p>
+        <input type="submit" value="edit">
+        <p>
+        Type DELETE to delete thread
+        <p>
+        <textarea name="delete" rows="5" cols="50"></textarea>
+        <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" value="delete">
+    </form>
+    <a href="{{back}}">go back</a>
+</div>
