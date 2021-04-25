@@ -12,7 +12,7 @@ def subjects(user_id):
 
 def threads(user_id, subject_id):
     sql = "SELECT MIN(s.subject), t.id, MIN(t.topic), COUNT(DISTINCT l.id), COUNT(CASE WHEN c.comment='DELETE' " \
-        "OR c.comment IS NULL THEN NULL ELSE 1 END) / COUNT(DISTINCT l.id), MAX(c.posted), (SELECT COUNT(id) FROM likes WHERE user_id=:user_id " \
+        "OR c.comment IS NULL THEN NULL ELSE 1 END) / COALESCE(NULLIF(COUNT(DISTINCT l.id),0), 1), MAX(c.posted), (SELECT COUNT(id) FROM likes WHERE user_id=:user_id " \
             "AND thread_id=t.id), MIN(t.user_id) FROM subjects s, comments c, threads t LEFT JOIN likes l ON t.id=l.thread_id " \
                 "WHERE t.id=c.thread_id AND t.subject_id=:subject_id AND s.id=t.subject_id AND t.topic!='DELETE' GROUP BY t.id ORDER BY MIN(c.posted) DESC"
     result = db.session.execute(sql, {"subject_id":subject_id, "user_id":user_id})
