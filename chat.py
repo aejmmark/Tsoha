@@ -2,6 +2,13 @@
 from app import app
 from db import db
 
+def search(keyword):
+    sql = "SELECT t.id, c.comment, c.posted, t.topic FROM comments c, threads t WHERE t.id=c.thread_id " \
+        "AND (c.comment LIKE :keyword OR t.topic LIKE :keyword) AND t.topic!='DELETE' ORDER BY c.posted DESC"
+    result = db.session.execute(sql, {"keyword":"%"+keyword+"%"})
+    results = result.fetchall()
+    return results
+
 def subjects(user_id):
     sql = "SELECT s.id, s.subject, COUNT(DISTINCT t.id), COUNT(CASE WHEN c.comment='DELETE' OR c.comment IS NULL THEN NULL ELSE 1 END), " \
         "MAX(c.posted), s.secret, COUNT(DISTINCT p.id) FROM subjects s LEFT JOIN threads t ON s.id=t.subject_id AND t.topic!='DELETE' LEFT JOIN " \
@@ -10,24 +17,34 @@ def subjects(user_id):
     subjects = result.fetchall()
     return subjects
 
-def threads(user_id, subject_id):
+def threads(user_id, subject_id, sort):
     sql = "SELECT MIN(s.subject), t.id, MIN(t.topic), COUNT(DISTINCT l.id), COUNT(CASE WHEN c.comment='DELETE' " \
         "OR c.comment IS NULL THEN NULL ELSE 1 END) / COALESCE(NULLIF(COUNT(DISTINCT l.id),0), 1), MAX(c.posted), (SELECT COUNT(id) FROM likes WHERE user_id=:user_id " \
             "AND thread_id=t.id), MIN(t.user_id) FROM subjects s, comments c, threads t LEFT JOIN likes l ON t.id=l.thread_id " \
-                "WHERE t.id=c.thread_id AND t.subject_id=:subject_id AND s.id=t.subject_id AND t.topic!='DELETE' GROUP BY t.id ORDER BY MIN(c.posted) DESC"
+                "WHERE t.id=c.thread_id AND t.subject_id=:subject_id AND s.id=t.subject_id AND t.topic!='DELETE' GROUP BY t.id "
+    if sort:
+        sql += "ORDER BY COUNT(DISTINCT l.id) DESC"
+    else:
+        sql += "ORDER BY MIN(c.posted) DESC"
     result = db.session.execute(sql, {"subject_id":subject_id, "user_id":user_id})
     threads = result.fetchall()
     return threads
-
-def comments(user_id, thread_id):
+# ORDER BY MIN(c.posted) DESC
+# ORDER BY CASE WHEN :sort=FALSE THEN MIN(c.posted) DESC ELSE COUNT(DISTINCT l.id) ASC END
+def comments(user_id, thread_id, sort):
     sql = "SELECT MIN(t.topic), MIN(c.id), MIN(c.comment), MIN(u.username), COUNT(l.id), MIN(c.posted), " \
         "(SELECT COUNT(id) FROM likes WHERE user_id=:user_id AND comment_id=MIN(c.id)), MIN(u.id) FROM threads t, users u, comments c" \
             " LEFT JOIN likes l ON c.id=l.comment_id WHERE c.user_id=u.id AND c.thread_id=t.id AND t.id=:thread_id AND c.comment!='DELETE' " \
-                "GROUP BY c.id ORDER BY MIN(c.posted)"
+                "GROUP BY c.id "
+    if sort:
+        sql += "ORDER BY COUNT(DISTINCT l.id) DESC"
+    else:
+        sql += "ORDER BY MIN(c.posted)"
     result = db.session.execute(sql, {"thread_id":thread_id, "user_id":user_id})
     comments = result.fetchall()
     return comments
-
+# ORDER BY MIN(c.posted)
+# ORDER BY CASE WHEN :sort=FALSE THEN MIN(c.posted) ELSE COUNT(l.id) END
 def new_comment(comment, thread_id, user_id):
     sql = "INSERT INTO comments (thread_id, user_id, comment, posted) VALUES (:thread_id,:user_id,:comment,NOW())"
     try:
@@ -105,13 +122,6 @@ def edit_comment(comment_id, new_comment):
         return thread_id
     except:
         return 0
-
-def search(keyword):
-    sql = "SELECT t.id, c.comment, c.posted, t.topic FROM comments c, threads t WHERE t.id=c.thread_id " \
-        "AND (c.comment LIKE :keyword OR t.topic LIKE :keyword) AND t.topic!='DELETE' ORDER BY c.posted DESC"
-    result = db.session.execute(sql, {"keyword":"%"+keyword+"%"})
-    results = result.fetchall()
-    return results
 
 def get_subject(subject_id):
     result = db.session.execute("SELECT subject FROM subjects WHERE id=:subject_id", {"subject_id":subject_id})

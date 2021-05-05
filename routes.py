@@ -31,10 +31,13 @@ def search():
 @app.route("/subject/<int:id>",methods=["GET","POST"])
 def subject(id):
     if request.method == "GET":
+        sort = False
+        if session.get("thread_sort") is not None:
+            sort = True
         user = 0
         if session.get("user_id") is not None:
             user = session["user_id"]
-        threads = chat.threads(user, id)
+        threads = chat.threads(user, id, sort)
         subject = chat.get_subject(id)
         if subject == "DELETE":
             abort(403)
@@ -50,10 +53,13 @@ def subject(id):
 @app.route("/thread/<int:id>",methods=["GET","POST"])
 def thread(id):
     if request.method == "GET":
+        sort = False
+        if session.get("comment_sort") is not None:
+            sort = True
         user = 0
         if session.get("user_id") is not None:
             user = session["user_id"]
-        comments = chat.comments(user, id)
+        comments = chat.comments(user, id, sort)
         topic = chat.get_topic(id)
         if topic == "DELETE":
             abort(403)
@@ -65,6 +71,22 @@ def thread(id):
         else:
             flash("unexpected error, try again")
             return redirect("/thread/" + str(id))
+
+@app.route("/sort_threads/<int:id>", methods=["POST"])
+def sort_threads(id):
+    if session.get("thread_sort") is not None:
+        del session["thread_sort"]
+    else:    
+        session["thread_sort"] = "likes"
+    return redirect("/subject/" + str(id))
+
+@app.route("/sort_comments/<int:id>", methods=["POST"])
+def sort_comments(id):
+    if session.get("comment_sort") is not None:
+        del session["comment_sort"]
+    else:    
+        session["comment_sort"] = "likes"
+    return redirect("/thread/" + str(id))
 
 @app.route("/new_subject",methods=["GET","POST"])
 def new_subject():

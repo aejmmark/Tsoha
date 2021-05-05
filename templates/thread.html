@@ -13,6 +13,14 @@
         {% endif %}
     {% endwith %}
     <a href="{{back}}">go back</a>
+    <p>
+    <form action="/sort_comments/{{link}}" method="POST">
+        {% if session.comment_sort %}
+            <input type="submit" value="sort by time">
+        {% else %}
+            <input type="submit" value="sort by likes">
+        {% endif %}
+    </form>
 </div>
     {% if session.user_id %}
         <div class="container">
