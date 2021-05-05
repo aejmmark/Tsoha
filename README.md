@@ -12,12 +12,9 @@ Sovelluksessa on nähtävillä keskustelualueita eri aiheista. Alueen valitsemal
 * Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
 * Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
 * Käyttäjä voi tykätä viestistä tai ketjusta.
+* Käyttäjä voi järjestää ketjun viestit tykkäysten tai ajankohdan mukaan.
 * Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä.
 * Käyttäjä voi poistaa luomansa ketjun tai viestin.
 * Ylläpitäjä voi lisätä tai poistaa keskustelualueita.
 * Ylläpitäjä voi poistaa käyttäjien tekemiä ketjuja tai viestejä.
 * Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
-
-TODO
-* Käyttäjä voi järjestää ketjun viestit tykkäysten tai ajankohdan mukaan.
-
