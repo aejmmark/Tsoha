@@ -1,6 +1,6 @@
 from datetime import datetime
 import re
-from flask import session, request, redirect, render_template, abort
+from flask import session, request, redirect, render_template, abort, flash
 
 from app import app
 import users
@@ -44,7 +44,8 @@ def subject(id):
         if chat.like_thread(session["user_id"], thread_id):
             return redirect("/subject/" + str(id))
         else:
-            return render_template("error.html", message="like_thread error", back=("/subject/" + str(id)))
+            flash("unexpected error, try again")
+            return redirect("/subject/" + str(id))
 
 @app.route("/thread/<int:id>",methods=["GET","POST"])
 def thread(id):
@@ -62,7 +63,8 @@ def thread(id):
         if chat.like_comment(session["user_id"], comment_id):
             return redirect("/thread/" + str(id))
         else:
-            return render_template("error.html", message="like_comment error", back=("/thread/" + str(id)))
+            flash("unexpected error, try again")
+            return redirect("/thread/" + str(id))
 
 @app.route("/new_subject",methods=["GET","POST"])
 def new_subject():
@@ -75,13 +77,16 @@ def new_subject():
             abort(403)
         subject = request.form["subject"]
         if len(subject) > 60 or len(subject) < 3:
-            return render_template("error.html", message="invalid subject", back="/new_subject")
+            flash("invalid subject")
+            return redirect("/new_subject")
         secret = request.form["secret"]
         is_secret = secret == "private"
         new_id = chat.new_subject(subject, is_secret)
         if (new_id != 0):
+                flash("subject created")
                 return redirect("/subject/" + str(new_id))
-        return render_template("error.html", message="new_subject error", back="/new_subject")
+        flash("unexpected error, try again")
+        return redirect("/new_subject")
 
 @app.route("/new_thread/<int:id>",methods=["GET","POST"])
 def new_thread(id):
@@ -93,11 +98,14 @@ def new_thread(id):
         topic = request.form["topic"]
         comment = request.form["comment"]
         if len(topic) > 60 or len(topic) < 3 or len(comment) > 500 or len(comment) < 3:
-            return render_template("error.html", message="invalid topic or comment", back=("/new_thread/" + str(id)))
+            flash("invalid topic or comment")
+            return redirect("/new_thread/" + str(id))
         new_id = chat.new_thread(comment, id, session["user_id"], topic)
         if (new_id != 0):
+                flash("topic posted")
                 return redirect("/thread/" + str(new_id))
-        return render_template("error.html", message="new_thread error", back=("/new_thread/" + str(id)))
+        flash("unexpected error, try again")
+        return redirect("/new_thread/" + str(id))
 
 @app.route("/new_comment/<int:id>",methods=["GET","POST"])
 def new_comment(id):
@@ -108,11 +116,14 @@ def new_comment(id):
             abort(403)
         comment = request.form["comment"]
         if len(comment) > 500 or len(comment) < 3:
-            return render_template("error.html", message="invalid comment", back=("/new_comment/" + str(id)))
+            flash("invalid comment")
+            return redirect("/new_comment/" + str(id))
         if chat.new_comment(comment, id, session["user_id"]):
+                flash("comment posted")
                 return redirect("/thread/" + str(id))
         else:
-            return render_template("error.html", message="new_comment error", back=("/new_comment/" + str(id)))
+            flash("unexpected error, try again")
+            return redirect("/new_comment/" + str(id))
 
 @app.route("/edit_subject/<int:id>",methods=["GET","POST"])
 def edit_subject(id):
@@ -126,16 +137,20 @@ def edit_subject(id):
         delete = request.form["delete"]
         if delete == "DELETE":
             if chat.edit_subject(id, delete, True):
+                flash("subject deleted")
                 return redirect("/")
         else:
             edited_subject = request.form["edited_subject"]
             if len(edited_subject) > 60 or len(edit_subject) < 3:
-                return render_template("error.html", message="invalid subject", back=("/edit_subject/" + str(id)))
+                flash("invalid subject")
+                return redirect("/edit_subject/" + str(id))
             secret = request.form["secret"]
             is_secret = secret == "private"
             if chat.edit_subject(id, edited_subject, is_secret):
+                flash("subject edited")
                 return redirect("/")
-        return render_template("error.html", message="unable to edit subject", back=("/edit_subject/" + str(id)))
+        flash("unable to edit subject")
+        return redirect("/edit_subject/" + str(id))
 
 @app.route("/edit_thread/<int:id>",methods=["GET","POST"])
 def edit_thread(id):
@@ -151,16 +166,20 @@ def edit_thread(id):
         if delete == "DELETE":
             subject_id = chat.edit_thread(id, delete)
             if (subject_id != 0):
+                flash("thread deleted")
                 return redirect("/subject/" + str(subject_id))
         else:
             edited_topic = request.form["edited_topic"]
             if len(edited_topic) > 60 or len(edited_topic) < 3:
-                return render_template("error.html", message="invalid topic", back=("/edit_thread/" + str(id)))
+                flash("invalid topic")
+                return redirect("/edit_thread/" + str(id))
             edited_topic = edited_topic + "\n[EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
             subject_id = chat.edit_thread(id, edited_topic)
             if (subject_id != 0):
+                    flash("topic edited")
                     return redirect("/subject/" + str(subject_id))
-        return render_template("error.html", message="unable to edit topic", back=("/edit_thread/" + str(id)))
+        flash("unable to edit topic")
+        return redirect("/edit_thread/" + str(id))
 
 @app.route("/edit_comment/<int:id>",methods=["GET","POST"])
 def edit_comment(id):
@@ -176,16 +195,20 @@ def edit_comment(id):
         if delete == "DELETE":
             subject_id = chat.edit_comment(id, delete)
             if (subject_id != 0):
+                flash("comment deleted")
                 return redirect("/thread/" + str(subject_id))
         else:
             edited_comment = request.form["edited_comment"]
             if len(edited_comment) > 500 or len(edited_comment) < 3:
-                return render_template("error.html", message="invalid comment", back=("/edit_comment/" + str(id)))
+                flash("invalid comment")
+                return redirect("/edit_comment/" + str(id))
             edited_comment = edited_comment + "\n[EDITED " + str(datetime. now(). strftime("%Y-%m-%d")) +"]"
             thread_id = chat.edit_comment(id, edited_comment)
             if (thread_id != 0):
+                    flash("comment edited")
                     return redirect("/thread/" + str(thread_id))
-        return render_template("error.html", message="unable to edit comment", back=("/edit_comment/" + str(id)))
+        flash("unable to edit comment")
+        return redirect("/edit_comment/" + str(id))
 
 @app.route("/add_user/<int:id>", methods=["POST"])
 def add_user(id):
@@ -195,9 +218,11 @@ def add_user(id):
         abort(403)
     user = request.form["add_user"]
     if users.add_user(user, id):
+        flash("privileges added")
         return redirect("/")
     else:
-        return render_template("error.html", message="unable to add privileges", back=("/edit_subject/" + str(id)))
+        flash("unable to add privileges")
+        return redirect("/edit_subject/" + str(id))
 
 @app.route("/remove_user/<int:id>", methods=["POST"])
 def remove_user(id):
@@ -207,9 +232,11 @@ def remove_user(id):
         abort(403)
     user = request.form["remove_user"]
     if users.remove_user(user, id):
+        flash("privileges removed")
         return redirect("/")
     else:
-        return render_template("error.html", message="unable to remove privileges", back=("/edit_subject/" + str(id)))
+        flash("unable to remove privileges")
+        return redirect("/edit_subject/" + str(id))
 
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -219,14 +246,17 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username,password):
+            flash("login succesful!")
             return redirect("/")
         else:
-            return render_template("error.html", message="Wrong username or password", back="/login")
+            flash("wrong username or password")
+            return redirect("/login")
 
 @app.route("/logout")
 def logout():
     del session["user_id"]
     del session["csrf_token"]
+    flash("logged out")
     return redirect("/")
 
 @app.route("/register",methods=["GET","POST"])
@@ -235,13 +265,17 @@ def register():
         return render_template("register.html")
     if request.method == "POST":
         if (request.form["a_password"] != request.form["b_password"]):
-            return render_template("error.html", message="Passwords do not match", back="/register")
+            flash("passwords do not match")
+            return redirect("/register")
         username = request.form["username"]
         password = request.form["a_password"]
         if len(username) > 12 or len(username) < 3 or len(password) > 16 or len(password) < 8 or bool(re.search(r'\W', username)):
-            return render_template("error.html", message="invalid username or password", back="/register")
+            flash("invalid username or password")
+            return redirect("/register")
         admin = (request.form["usertype"] == "admin")
         if users.register(username,password, admin):
+            flash("new user created")
             return redirect("/")
         else:
-            return render_template("error.html", message="Username taken", back="/register")
+            flash("username taken")
+            return redirect("/register")
