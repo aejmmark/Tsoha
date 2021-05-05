@@ -16,6 +16,15 @@
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="submit" value="submit">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class=flashes>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </p>
+            {% endif %}
+        {% endwith %}
     </form>
     <a href="/">go back</a>
 </div>

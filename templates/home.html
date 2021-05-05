@@ -3,6 +3,15 @@
 <title>discussorium</title>
 <div class="container">
     <h1>DISCUSSORIUM</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class=flashes>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            </p>
+        {% endif %}
+    {% endwith %}
     <p>
     {% if session.user_id %}
     <a href="/user">{{user}}</a>

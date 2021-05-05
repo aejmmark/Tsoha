@@ -4,6 +4,15 @@
 <div class="container">
     <form action="/edit_subject/{{link}}" method="POST">
         Edit the subject! Must be over 3 and under 60 characters in length
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class=flashes>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </p>
+            {% endif %}
+        {% endwith %}
         <p>
         <textarea name="edited_subject" rows="5" cols="50"></textarea>
         <p>
