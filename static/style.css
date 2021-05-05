@@ -4,7 +4,7 @@ body {
     max-width: 50em;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
-    color: maroon;
+    color: lightseagreen;
     background: peachpuff;
 }
 
@@ -29,7 +29,7 @@ a {
     font-size: large;
     padding: 10px;
     text-decoration: none;
-    color: maroon;
+    color: lightseagreen;
     display: inline-block;
 }
 
@@ -42,7 +42,7 @@ input {
     border-style: double;
     font-size: large;
     padding: 10px;
-    color: maroon;
+    color: lightseagreen;
 }
 
 textarea {
@@ -55,7 +55,7 @@ textarea {
     text-align: center;
     font-size: large;
     padding: 10px;
-    color: maroon;
+    color: lightseagreen;
     display: inline-block;
 }
 
@@ -79,18 +79,18 @@ textarea {
     text-align: center;
     font-size: large;
     padding: 10px;
-    color: maroon;
+    color: lightseagreen;
     display: inline-block;
 }
 
 .radiocheck input[type="radio"]:focus + label {
-    border: 5px maroon;
+    border: 5px lightseagreen;
     border-radius: .5em;
     border-style: double;
 }
 
 .radiocheck input[type="radio"]:checked + label {
-    border: 5px maroon;
+    border: 5px lightseagreen;
     border-radius: .5em;
     border-style: double;
 }
