@@ -1,6 +1,5 @@
-
 from app import app
-from db import db
+from database.db import db
 
 def search(keyword):
     sql = "SELECT t.id, c.comment, c.posted, t.topic FROM comments c, threads t WHERE t.id=c.thread_id " \
@@ -29,8 +28,7 @@ def threads(user_id, subject_id, sort):
     result = db.session.execute(sql, {"subject_id":subject_id, "user_id":user_id})
     threads = result.fetchall()
     return threads
-# ORDER BY MIN(c.posted) DESC
-# ORDER BY CASE WHEN :sort=FALSE THEN MIN(c.posted) DESC ELSE COUNT(DISTINCT l.id) ASC END
+
 def comments(user_id, thread_id, sort):
     sql = "SELECT MIN(t.topic), MIN(c.id), MIN(c.comment), MIN(u.username), COUNT(l.id), MIN(c.posted), " \
         "(SELECT COUNT(id) FROM likes WHERE user_id=:user_id AND comment_id=MIN(c.id)), MIN(u.id) FROM threads t, users u, comments c" \
@@ -43,8 +41,7 @@ def comments(user_id, thread_id, sort):
     result = db.session.execute(sql, {"thread_id":thread_id, "user_id":user_id})
     comments = result.fetchall()
     return comments
-# ORDER BY MIN(c.posted)
-# ORDER BY CASE WHEN :sort=FALSE THEN MIN(c.posted) ELSE COUNT(l.id) END
+
 def new_comment(comment, thread_id, user_id):
     sql = "INSERT INTO comments (thread_id, user_id, comment, posted) VALUES (:thread_id,:user_id,:comment,NOW())"
     try:
