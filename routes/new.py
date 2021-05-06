@@ -1,6 +1,6 @@
 from flask import Blueprint, session, request, redirect, render_template, abort, flash
 from datetime import datetime
-from database import chat
+from database import edit
 
 new_routes = Blueprint("new_routes", __name__, template_folder="templates")
 
@@ -19,7 +19,7 @@ def new_subject():
             return redirect("/new_subject")
         secret = request.form["secret"]
         is_secret = secret == "private"
-        new_id = chat.new_subject(subject, is_secret)
+        new_id = edit.new_subject(subject, is_secret)
         if (new_id != 0):
                 flash("subject created")
                 return redirect("/subject/" + str(new_id))
@@ -38,7 +38,7 @@ def new_thread(id):
         if len(topic) > 60 or len(topic) < 3 or len(comment) > 500 or len(comment) < 3:
             flash("invalid topic or comment")
             return redirect("/new_thread/" + str(id))
-        new_id = chat.new_thread(comment, id, session["user_id"], topic)
+        new_id = edit.new_thread(comment, id, session["user_id"], topic)
         if (new_id != 0):
                 flash("topic posted")
                 return redirect("/thread/" + str(new_id))
@@ -56,7 +56,7 @@ def new_comment(id):
         if len(comment) > 500 or len(comment) < 3:
             flash("invalid comment")
             return redirect("/new_comment/" + str(id))
-        if chat.new_comment(comment, id, session["user_id"]):
+        if edit.new_comment(comment, id, session["user_id"]):
                 flash("comment posted")
                 return redirect("/thread/" + str(id))
         else:
