@@ -79,4 +79,3 @@ def remove_user(id):
     else:
         flash("unable to remove privileges")
         return redirect("/edit_subject/" + str(id))
-
