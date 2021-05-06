@@ -2,8 +2,8 @@ from app import app
 from database.db import db
 
 def search(keyword):
-    sql = "SELECT t.id, c.comment, c.posted, t.topic FROM comments c, threads t WHERE t.id=c.thread_id " \
-        "AND (c.comment LIKE :keyword OR t.topic LIKE :keyword) AND t.topic!='DELETE' ORDER BY c.posted DESC"
+    sql = "SELECT t.id, c.comment, c.posted, t.topic FROM subjects s, comments c, threads t WHERE t.id=c.thread_id " \
+        "AND (c.comment LIKE :keyword OR t.topic LIKE :keyword) AND t.topic!='DELETE' AND s.id=t.subject_id AND s.secret=False ORDER BY c.posted DESC"
     result = db.session.execute(sql, {"keyword":"%"+keyword+"%"})
     results = result.fetchall()
     return results
