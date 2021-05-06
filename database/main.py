@@ -86,3 +86,19 @@ def subject_check_privilege(user_id, subject_id):
     if count > 0:
         return True
     return False
+
+def thread_secret(thread_id):
+    sql = "SELECT s.secret FROM subjects s, threads t WHERE s.id=t.subject_id AND t.id=:thread_id"
+    result = db.session.execute(sql, {"thread_id":thread_id})
+    secret = result.fetchone()[0]
+    return secret
+
+def thread_check_privilege(user_id, thread_id):
+    if user_id < 0:
+        return True
+    sql = "SELECT COUNT(p.id) FROM privileges p, threads t WHERE p.subject_id=t.subject_id AND p.user_id=:user_id AND t.id=:thread_id"
+    result = db.session.execute(sql, {"user_id":user_id, "thread_id":thread_id})
+    count = result.fetchone()[0]
+    if count > 0:
+        return True
+    return False
