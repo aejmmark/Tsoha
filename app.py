@@ -13,5 +13,3 @@ app.register_blueprint(main_routes)
 app.register_blueprint(new_routes)
 app.register_blueprint(edit_routes)
 app.register_blueprint(users_routes)
-
-#import routes
