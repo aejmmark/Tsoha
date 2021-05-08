@@ -1,8 +1,8 @@
-from app import app
-from database.db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import getenv, urandom
+from app import app
+from database.db import db
 app.secret_key = getenv("SECRET_KEY")
 
 def login(username, password):

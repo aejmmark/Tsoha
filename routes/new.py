@@ -30,10 +30,10 @@ def new_subject():
 
 @new_routes.route("/new_thread/<int:id>",methods=["GET","POST"])
 def new_thread(id):
-    if request.method == "GET":
-        if subject_secret(id):
+    if subject_secret(id):
             if session.get("user_id") is None or not subject_check_privilege(session["user_id"], id):
                 abort(403)
+    if request.method == "GET":
         return render_template("new_thread.html", link=id, back=("/subject/" + str(id)))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
@@ -52,10 +52,10 @@ def new_thread(id):
 
 @new_routes.route("/new_comment/<int:id>",methods=["GET","POST"])
 def new_comment(id):
-    if request.method == "GET":
-        if thread_secret(id):
+    if thread_secret(id):
             if session.get("user_id") is None or not thread_check_privilege(session["user_id"], id):
                 abort(403)
+    if request.method == "GET":
         return render_template("new_comment.html", link=id, back=("/thread/" + str(id)))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:

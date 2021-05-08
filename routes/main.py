@@ -24,10 +24,10 @@ def search():
 
 @main_routes.route("/subject/<int:id>",methods=["GET","POST"])
 def subject(id):
-    if request.method == "GET":
-        if main.subject_secret(id):
+    if main.subject_secret(id):
             if session.get("user_id") is None or not main.subject_check_privilege(session["user_id"], id):
                 abort(403)
+    if request.method == "GET":
         sort = False
         if session.get("thread_sort") is not None:
             sort = True
@@ -49,10 +49,10 @@ def subject(id):
 
 @main_routes.route("/thread/<int:id>",methods=["GET","POST"])
 def thread(id):
-    if request.method == "GET":
-        if main.thread_secret(id):
+    if main.thread_secret(id):
             if session.get("user_id") is None or not main.thread_check_privilege(session["user_id"], id):
                 abort(403)
+    if request.method == "GET":
         sort = False
         if session.get("comment_sort") is not None:
             sort = True
